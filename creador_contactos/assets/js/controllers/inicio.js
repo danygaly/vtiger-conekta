@@ -5,7 +5,8 @@ var formulario_contacto = new Vue({
             nombre : '',
             apellido : '',
             mail : '',
-            phone : ''
+            phone : '',
+            error : ''
         }
     },
     methods:{

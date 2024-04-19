@@ -5,7 +5,7 @@ require_once('include/utils/utils.php');
 //Coloca este archivo en vtigercrm/modules/Contacts/
 //Debes registrar el handler ejecutando regisrarEventHandler.php desde la carpeta principal de Vtiger.
 
-class EjemploBeforeSaveHandler extends VTEventHandler 
+class CrearCustomerConektaHandler extends VTEventHandler 
 {
 	public function handleEvent($eventType, $entity)
 	{

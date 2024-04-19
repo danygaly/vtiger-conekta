@@ -18,7 +18,7 @@ class ConsumeAPIController {
         $this->access_key_api = self::ACCESS_KEY_API;
     }
 
-    public function getToken(){
+    public function getChallenge(){
 
         $this->operation = "getchallenge";
         $data = 'operation='.$this->operation;
@@ -27,9 +27,7 @@ class ConsumeAPIController {
 
         $response = json_decode($this->sendGetToEndPoint($data),true);
 
-        $token = $response['result']['token'];
-
-        return $token;
+        return $response;
     }
 
     public function login($token){
@@ -48,8 +46,24 @@ class ConsumeAPIController {
 
     }
 
+    public function addContact($session_name,$data_contact){
 
-    public function sendPostToEndPoint($data){
+        $operation = $this->operation = "create";
+        $session_name = $session_name;
+        $element = $data_contact;
+        $element_type = 'Contacts';
+        $data = array(
+            'operation' => $operation,
+            'sessionName' => $session_name,
+            'element' => $element,
+            'elementType' => $element_type
+        );
+        $response = json_decode($this->sendPostToEndPoint($data),true);
+        return $response;
+
+    }
+
+    private function sendPostToEndPoint($data){
         $curl = curl_init($this->url_api);
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
@@ -61,7 +75,7 @@ class ConsumeAPIController {
         return $result;
     }
 
-    public function sendGetToEndPoint($data){
+    private function sendGetToEndPoint($data){
         $curl = curl_init($this->url_api.'?'.$data);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($curl);
@@ -69,6 +83,5 @@ class ConsumeAPIController {
         curl_close($curl);
         return $result;
     }
-
 
 }

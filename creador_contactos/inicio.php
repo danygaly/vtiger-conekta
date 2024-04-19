@@ -4,15 +4,23 @@ date_default_timezone_set('America/Mexico_City');
 require_once 'controllers/registro_contacto.controller.php';
 require_once 'controllers/consume_api.controller.php';
 
-define('MODE', isset($_REQUEST['ERROR']) ? 'error' : 'regular');
+define('MODE', ($_REQUEST['error'] === 'true') ? 'error' : 'regular');
+
+$url_api;
+$user_api;
+$access_key_api;
 
 switch (MODE)
 {
 	case 'regular':
-        
+		$url_api = "http://localhost/vtigercrm/webservice.php";
+		$user_api = "admin";
+		$access_key_api = "oFpRPYOP7DyMGvv4";
 	break;
 	case 'error':
-        
+        $url_api = "http://localhost/vtigercrm/webservice.php";
+		$user_api = "fake";
+		$access_key_api = "";
     break;
 
 	default:
@@ -22,10 +30,8 @@ ini_set('max_execution_time', '300');
 
 $data_nuevo_registro = $_REQUEST;
 
-
-
 $registro = new RegistroContactoController($data_nuevo_registro);
-$remoto = new ConsumeAPIController();
+$remoto = new ConsumeAPIController($url_api,$user_api,$access_key_api);
 
 $data_contact = $registro->getDataForCreateContact();
 $data_contact = json_encode($data_contact);

@@ -4,18 +4,15 @@ date_default_timezone_set('America/Mexico_City');
  * 	Clase para consumir API de Vtiger
  */
 class ConsumeAPIController {
-    const VTIGER_API_URL = "http://localhost/vtigercrm/webservice.php";
-    const USER_NAME_API = "admin";
-    const ACCESS_KEY_API = "oFpRPYOP7DyMGvv4";
     private $url_api;
     private $user_api;
     private $access_key_api;
     private $operation;
 
-    public function __CONSTRUCT() {
-        $this->url_api = self::VTIGER_API_URL;
-        $this->user_api = self::USER_NAME_API;
-        $this->access_key_api = self::ACCESS_KEY_API;
+    public function __CONSTRUCT($url,$user,$key) {
+        $this->url_api = $url;
+        $this->user_api = $user;
+        $this->access_key_api = $key;
     }
 
     public function getChallenge(){

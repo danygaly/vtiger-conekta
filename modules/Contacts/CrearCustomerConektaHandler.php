@@ -19,6 +19,7 @@ class CrearCustomerConektaHandler extends VTEventHandler
 			$name = $entity->get('firstname').' '.$entity->get('lastname');
 			$mail = $entity->get('email');
 			$phone = $entity->get('phone');
+			$id_conekta = $entity->get('otherphone');
 
 			$data_costume = array(
 				'name' => $name,
@@ -26,12 +27,30 @@ class CrearCustomerConektaHandler extends VTEventHandler
 				'phone' => $phone
 			);
 			$data_costume = json_encode($data_costume);
-			$response = json_decode($api->sendDataCostume($data_costume));
 
-			$id_conekta = $response->id;
 
-			$entity->set('otherphone', $id_conekta);
+			if($id_conekta == ''){
+				$response = json_decode($api->createCostume($data_costume));
+				$id_conekta = $response->id;
+				$entity->set('otherphone', $id_conekta);
+			}
 
+			if($id_conekta != ''){
+				$data_costumer = json_decode($api->getACostume($id_conekta));
+				$type_object = $data_costumer->object;
+				
+				if($type_object == 'error'){
+					throw new Exception('No existe un cliente con el ID cus_xxxxx de Conekta');
+				} 
+
+				try {
+					if($type_object == 'customer'){
+						$response = json_decode($api->updateCostume($id_conekta,$data_costume));	
+					}
+				} catch (Exception $e) {
+					echo 'Ha habido una excepción: ' . $e->getMessage() . "<br>";
+				}
+			}
 			//Este exit sirve para ver en el navegador el output (echos) de arriba. 
 			//Es necesario quitarlo para que al guardar el contacto en la vista de edición, regrese al usuario a la vista de detalle.
 			//exit; 

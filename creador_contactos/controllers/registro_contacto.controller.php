@@ -30,5 +30,56 @@ class RegistroContactoController {
      return $data_contact;
    }
 
+   public function dataValidate($data){
+
+      $message_invalido = 'Debe llenar todos los campos.';
+
+      $result['success'] = true;
+      $result['msg'] = '';
+
+      if(empty($data['firstname']) || empty($data['lastname']) || empty($data['email']) ||empty($data['phone'])) {
+       
+         $result['success'] = false;
+         $result['msg'] = $message_invalido;
+         return $result;
+         exit;
+
+      }
+  
+      $sanitiza_firstname = htmlspecialchars($data['firstname'],ENT_HTML5);
+      if (!preg_match("/^[a-zA-Z\s]+$/", $sanitiza_firstname)) {
+         $result['success'] = false;
+         $result['msg'] = 'Nombre o apellido no validos';
+         return $result;
+         exit;
+      }
+
+      $sanitiza_lastname = htmlspecialchars($data['lastname'],ENT_HTML5);
+      if (!preg_match("/^[a-zA-Z\s]+$/", $sanitiza_lastname)) {
+         $result['success'] = false;
+         $result['msg'] = 'Nombre o apellido no validos';
+         return $result;
+         exit;
+      }
+
+      $sanitiza_mail = htmlspecialchars($data['email']);
+      if (!filter_var($sanitiza_mail, FILTER_VALIDATE_EMAIL)) {
+         $result['success'] = false;
+         $result['msg'] = 'Correo no valido';
+         return $result;
+         exit;
+      }
+
+      $sanitiza_phone = htmlspecialchars($data['phone'],ENT_HTML5);
+      if (!preg_match("/^\d{10}$/", $sanitiza_phone) && strlen($sanitiza_phone) == 10 ) {
+         $result['success'] = false;
+         $result['msg'] = 'Telefono no valido';
+         return $result;
+         exit;
+      }
+      
+      return $result;
+   }
+
 }
 

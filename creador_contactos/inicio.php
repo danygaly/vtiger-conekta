@@ -34,6 +34,14 @@ $registro = new RegistroContactoController($data_nuevo_registro);
 $remoto = new ConsumeAPIController($url_api,$user_api,$access_key_api);
 
 $data_contact = $registro->getDataForCreateContact();
+$validate_data = $registro->dataValidate($data_contact);
+
+if($validate_data['success'] == false){
+	print (json_encode($validate_data));
+	return true;
+	exit;
+}
+
 $data_contact = json_encode($data_contact);
 
 $challenge = $remoto->getChallenge();

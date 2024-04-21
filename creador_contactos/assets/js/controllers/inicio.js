@@ -22,7 +22,11 @@ var formulario_contacto = new Vue({
                             document.getElementById('modal-mensaje').innerHTML = 'Registro de contacto exitoso';
                             $('#modal_mensaje').modal('show');
                         }else{
-                            document.getElementById('modal-mensaje').innerHTML = 'Registro de contacto fallido';
+                            if('msg' in response.data){
+                                document.getElementById('modal-mensaje').innerHTML = response.data.msg;
+                            }else{
+                                document.getElementById('modal-mensaje').innerHTML = 'Se ha generado un problema, no se completo registro';
+                            }
                             $('#modal_mensaje').modal('show');
                         }
                     }

@@ -71,7 +71,7 @@ class RegistroContactoController {
       }
 
       $sanitiza_phone = htmlspecialchars($data['phone'],ENT_HTML5);
-      if (!preg_match("/^\d{10}$/", $sanitiza_phone) && strlen($sanitiza_phone) == 10 ) {
+      if (!preg_match("/^[0-9]{10}$/", $sanitiza_phone) ) {
          $result['success'] = false;
          $result['msg'] = 'Telefono no valido';
          return $result;
